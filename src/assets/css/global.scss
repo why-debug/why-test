@@ -51,9 +51,6 @@ body {
   flex-direction: row;
   justify-content: space-between;
 }
-.van-list {
-  border-radius: 20px !important;
-}
 @supports (bottom: env(safe-area-inset-bottom)) {
   body,
   .footer {

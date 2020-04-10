@@ -15,7 +15,7 @@
                     </p>
                 </div>
         </div>
-        <div id="list" style="margin: 20px;">
+        <div id="list" style="margin: 10px;border-radius: 10px ">
             <van-list
                     v-model="loading"
                     :finished="finished"
@@ -68,6 +68,7 @@
 <script>
 import CircleListItem from "../components/CircleListItem";
 import api from "@/api/basic";
+import { Dialog } from 'vant';
 
 export default {
   name: "CircleList",
@@ -100,8 +101,19 @@ export default {
   methods: {
     // 安全退出
     exit() {
-      this.$router.push("/");
-      localStorage.clear();
+      Dialog({ message: '' });
+      Dialog.confirm({
+        title: "退出登录",
+        message: "确认退出吗？"
+      })
+        .then(() => {
+          // on confirm
+          this.$router.push("/");
+          localStorage.clear();
+        })
+        .catch(() => {
+          // on cancel
+        });
     },
     onchang(e) {
       this.active = e.detail;
