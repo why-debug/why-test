@@ -17,7 +17,7 @@
         </div>
 
         <div class="btn-group flex-row-between footer">
-            <van-button type="default" @click="submitBack":disabled="loading" v-if="stepActive>0">上一步</van-button>
+            <van-button type="default" @click="submitBack" :disabled="loading" v-if="stepActive>0">上一步</van-button>
             <van-button type="info" @click="submitNext" :loading="loading" :disabled="loading" loading-text="提交中..." v-if="stepActive<2" style="background: #458FCE">下一步
             </van-button>
             <van-button type="info" @click="submitData" :loading="loading" :disabled="loading" loading-text="提交中..." v-if="stepActive == 2" style="background: #458FCE">提交</van-button>

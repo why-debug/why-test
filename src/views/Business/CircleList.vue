@@ -108,7 +108,7 @@ export default {
     },
     // 添加圈子
     add() {
-      this.$router.push("/service-ring");
+      this.$router.push("/create-circle");
     },
     initialize() {
       this.page = 1;
