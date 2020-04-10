@@ -1,0 +1,63 @@
+* {
+  box-sizing: border-box;
+}
+
+//input:-webkit-autofill {
+//  -webkit-box-shadow: 0 0 0 1000px white inset;
+//}
+
+html {
+  -webkit-overflow-scrolling: touch;
+}
+
+body {
+  font-family: Helvetica;
+  margin: 0;
+  padding: 0;
+  background-color: #f5f5f5;
+}
+
+#app {
+  font-size: 15px;
+  color: #333333;
+}
+
+.bg-white {
+  background-color: #fff;
+}
+
+.position-center {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+}
+
+.overflow-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.flex-row-between {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.van-list {
+  border-radius: 20px !important;
+}
+@supports (bottom: env(safe-area-inset-bottom)) {
+  body,
+  .footer {
+    padding-bottom: constant(safe-area-inset-bottom);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}

@@ -1,0 +1,25 @@
+#add,#edit {
+  position: relative;
+
+  .header {
+    width: 100%;
+    padding: 0 13px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    > div {
+      padding: 15px 0;
+      font-weight: 600;
+
+      &:first-child {
+        padding-right: 10px;
+      }
+
+      &:last-child {
+        padding-left: 10px;
+        color: #458FCE
+      }
+    }
+  }
+}
