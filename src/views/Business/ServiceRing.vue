@@ -88,7 +88,8 @@
                             msisdn: this.userPhone,
                             circleType: 2,
                             price: this.monthMoney,
-                            linkUUID: overTime.get("linkUUID") || ""
+                            linkUUID: overTime.get("linkUUID") || "",
+                            // saId: 传id
                         }).then(response => {
                             if (response.data.code == "000000") {
                                 overTime.set("hasJoinedNoCircle", true);

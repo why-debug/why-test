@@ -76,6 +76,7 @@
                     ...form,
                     circleType: 1,
                     linkUUID: overTime.get("linkUUID") || ""
+                    
                 }).then(res => {
                     const { data } = res
                     if(data.code === this.$common.SUCCESS) {

@@ -7,6 +7,7 @@ import common from './utils/common'
 import moment from "moment"
 import 'amfe-flexible/index.js'
 import {Storage, jumpHtml} from './api/common'
+// import VueMasonryPlugin from 'vue-masonry'
 const overTime = new Storage()
 
 import {Button, Dialog, Field, Cell, CellGroup, Uploader, Icon, List, Toast, Notify, Tab, Tabs, Loading, Tag} from 'vant';
@@ -14,6 +15,7 @@ import {Tabbar, TabbarItem, Popup, Picker} from 'vant';
 import {Checkbox, CheckboxGroup, Step, Steps, SwipeCell} from 'vant';
 import {DropdownMenu, DropdownItem} from 'vant';
 
+// Vue .use(VueMasonryPlugin)
 Vue.use(DropdownMenu).use(DropdownItem);
 Vue.use(Tabbar).use(TabbarItem);
 Vue.use(Dialog);
@@ -32,6 +34,8 @@ Vue.use(Cell).use(CellGroup);
 Vue.use(Tab).use(Tabs);
 Vue.use(Checkbox).use(CheckboxGroup);
 Vue.use(Step).use(Steps);
+
+
 
 
 Vue.config.productionTip = false;

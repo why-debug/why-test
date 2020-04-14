@@ -4,13 +4,13 @@ import {Storage} from './common'
 const overTime = new Storage()
 
 const service = axios.create({
-    baseURL: "", // url = base url + request url
+    baseURL: "/qd", // url = base url + request url
     withCredentials: true, // send cookies when cross-domain requests
     timeout: 120000 // request timeout
 })
 
 const serviceSms = axios.create({
-    baseURL: "", // url = base url + request url
+    baseURL: "/qd", // url = base url + request url
     withCredentials: true, // send cookies when cross-domain requests
     timeout: 120000 // request timeout
 })
@@ -135,7 +135,6 @@ export default {
                 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
             }}).then()
     },
-
 
     getOrderInfo(seq) {
         return serviceSms.get(`/circle/order/orderInfo?seq=${seq}`)

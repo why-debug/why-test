@@ -15,7 +15,7 @@
         </van-tabbar-item>
         <van-tabbar-item name="mine" icon="user-o" @click="mine" :class="!!!isMe ? 'disable' : ''">
             <span>我的</span>
-            <img slot="icon" slot-scope="props" :src="$route.name == 'mine' ? userIcon.active : userIcon.inactive">
+            <img slot="icon" :src="$route.name == 'mine' ? userIcon.active : userIcon.inactive">
         </van-tabbar-item>
     </van-tabbar>
 </template>

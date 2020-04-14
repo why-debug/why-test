@@ -1,74 +1,65 @@
 <template>
-    <div class="box-list">
-        <!-- 顶部背景图及退出图标 -->
-        <div class="tit_bg">
-            <img class="exit" @click="exit" src="../../assets/images/exit.png" alt="" width="30">
-            <img class="add" @click="add" src="../../assets/images/add.png" alt="" width="60">
-                <div class="head_phone">
-                    <div class="tit_header">
-                    <div>
-                        <img src="../../assets/images/head.png" alt="" width="30">
-                    </div>
-                    </div>
-                      <p class="phone">
-                        {{phoneNumFilter}}
-                    </p>
-                </div>
+  <div class="box-list">
+    <!-- 顶部背景图及退出图标 -->
+    <div class="tit_bg">
+      <img class="exit" @click="exit" src="../../assets/images/exit.png" alt width="30" />
+      <img class="add" @click="add" src="../../assets/images/add.png" alt width="60" />
+      <div class="head_phone">
+        <div class="tit_header">
+          <div>
+            <img src="../../assets/images/head.png" alt width="30" />
+          </div>
         </div>
-        <div id="list" style="margin: 10px;border-radius: 10px ">
-            <van-list
-                    v-model="loading"
-                    :finished="finished"
-                    finished-text="已经全部加载完成"
-                    @load="onLoad"      
-            >
-                <van-swipe-cell class="list-box" v-for="item in dataList" :key="item.name">
-                    <van-cell>
-                        <template slot="title">
-                            <circle-list-item :circle-item="item"/>
-                                <!--<span class="share-box">分享加入</span>
-                            </circle-list-item>-->
-                        </template>
-                        <van-icon slot="right-icon" name="ellipsis" style="line-height: 45px;"/>
-                    </van-cell>
-                    <template slot="right">
-                        <!--<van-button type="info" text="编辑" @click="editCircle"/>-->
-                        <van-button type="danger" text="删除" @click="removeCircle(item.circleId)"/>
-                    </template>
-                </van-swipe-cell>
-            </van-list>
-        </div>
-        <!-- 底部选项标签 -->
-        <div id="bottom">
-          <van-tabbar v-model="active" active-color="#2577E8" :border="false" route>
-            <van-tabbar-item icon="wap-home" to="/home">
-                <span>首页</span>
-                <img slot="icon" :src="homeIcon.inactive">
-            </van-tabbar-item>
-            <!--<van-tabbar-item v-if="isShow">
+        <p class="phone">{{phoneNumFilter}}</p>
+      </div>
+    </div>
+    <div id="list" style="margin: 10px;border-radius: 10px ">
+      <van-list v-model="loading" :finished="finished" finished-text="已经全部加载完成" @load="onLoad">
+        <van-swipe-cell class="list-box" v-for="item in dataList" :key="item.name">
+          <van-cell>
+            <template slot="title">
+              <circle-list-item :circle-item="item" />
+              <!--<span class="share-box">分享加入</span>
+              </circle-list-item>-->
+            </template>
+            <van-icon slot="right-icon" name="ellipsis" style="line-height: 45px;" />
+          </van-cell>
+          <template slot="right">
+            <!--<van-button type="info" text="编辑" @click="editCircle"/>-->
+            <van-button type="danger" text="删除" @click="removeCircle(item.circleId)" />
+          </template>
+        </van-swipe-cell>
+      </van-list>
+    </div>
+    <!-- 底部选项标签 -->
+    <div id="bottom">
+      <van-tabbar v-model="active" active-color="#2577E8" :border="false" route>
+        <van-tabbar-item icon="wap-home" to="/home">
+          <span>首页</span>
+          <img slot="icon" :src="homeIcon.inactive" />
+        </van-tabbar-item>
+        <!--<van-tabbar-item v-if="isShow">
                 <img class="center-icon" src="../assets/images/center-icon.png" @click="uploadVideoRing">
-            </van-tabbar-item>-->
-            <!-- <van-tabbar-item v-if="isShow">
+        </van-tabbar-item>-->
+        <!-- <van-tabbar-item v-if="isShow">
                 <div class="tab-btn" @click="uploadVideoRing">
                     <img src="@/assets/images/menu-btn.png">
                     <span>办理业务</span>
                 </div>
-            </van-tabbar-item> -->
-            <van-tabbar-item name="mine" icon="user-o">
-                <span style="color:#2577E8">我的</span>
-                <template #icon="props">
-                    <img :src="userIcon.active"/>
-                </template>
-            </van-tabbar-item>
-          </van-tabbar>
-        </div>
+        </van-tabbar-item>-->
+        <van-tabbar-item name="mine" icon="user-o">
+          <span style="color:#2577E8">我的</span>
+          <img slot="icon" :src="userIcon.active" />
+        </van-tabbar-item>
+      </van-tabbar>
     </div>
+  </div>
 </template>
 
 <script>
 import CircleListItem from "../components/CircleListItem";
 import api from "@/api/basic";
-import { Dialog } from 'vant';
+import { Dialog } from "vant";
 
 export default {
   name: "CircleList",
@@ -101,7 +92,7 @@ export default {
   methods: {
     // 安全退出
     exit() {
-      Dialog({ message: '' });
+      Dialog({ message: "" });
       Dialog.confirm({
         title: "退出登录",
         message: "确认退出吗？"
