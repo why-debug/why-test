@@ -111,7 +111,7 @@ export default {
           ...form,
           circleType: 1,
           linkUUID: overTime.get("linkUUID") || "",
-          saId: localStorage.getItem("said")
+          saId: overTime.get("said") || "",
         })
         .then(res => {
           const { data } = res;

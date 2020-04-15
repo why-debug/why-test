@@ -134,9 +134,8 @@ export default {
     // 保存saId
     const saId = this.$route.query.saId;
     if (saId) {
-      localStorage.setItem("said", saId);
-    } else {
-      localStorage.setItem("said", "");
+      // localStorage.setItem("said", saId);
+      overTime.set("said", saId, 40000000);
     }
   }
 };
