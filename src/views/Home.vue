@@ -126,11 +126,18 @@ export default {
     api.sampleRings().then(res => {
       if (res.data.code == "000000") {
         this.videoList = res.data.data;
-        console.log(res.data.data);
+        // console.log(res.data.data);
       } else {
         this.$toast(res.data.msg);
       }
     });
+    // 保存saId
+    const saId = this.$route.query.saId;
+    if (saId) {
+      localStorage.setItem("said", saId);
+    } else {
+      localStorage.setItem("said", "");
+    }
   }
 };
 </script>

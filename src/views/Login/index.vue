@@ -54,16 +54,11 @@ export default {
   },
   mounted() {
     const linkUUID = this.$route.query.link_uuid;
-    const saId = this.$route.query.saId;
+    
     if (!!linkUUID) {
       overTime.set("linkUUID", linkUUID, 40000000);
     } else {
       overTime.set("linkUUID", "", 40000000);
-    }
-    if (saId) {
-      localStorage.setItem("said", saId);
-    } else {
-      localStorage.setItem("said", "");
     }
   },
   methods: {
