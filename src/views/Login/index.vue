@@ -100,7 +100,7 @@ export default {
     // 确定认证
     toComfirm() {
       let returnMsg = validateMobilePhone(this.phone);
-      // localStorage.setItem('said',saId)
+      localStorage.setItem('loginShow',1)
       if (returnMsg == "") {
         this.loginLoading = true;
         // 发送请求

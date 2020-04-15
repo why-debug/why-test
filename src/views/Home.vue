@@ -145,7 +145,6 @@ export default {
 #home {
   min-height: 100vh;
   background-color: #efeff4;
-
   .header {
     width: 100%;
     height: 30px;
