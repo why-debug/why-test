@@ -10,6 +10,7 @@
         playsinline="true"
         webkit-playsinline="true"
         loop
+        id="vid"
       ></video>
       <div class="center-box">
         <div class="tel-name">咪咕圈子彩铃</div>
@@ -45,8 +46,15 @@ export default {
       userPhone: overTime.get("circleUserPhone") || "13888888888"
     };
   },
+  methods:{
+    //  playvideo(){
+    //  var vdo=document.getElementById('vid')
+    //  vdo.play();
+    //  }
+  },
   mounted() {
     this.videoSrc = this.$route.params.videoSrc;
+    //  this.playvideo()
   }
 };
 </script>

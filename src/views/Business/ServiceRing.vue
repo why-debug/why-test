@@ -89,7 +89,7 @@
                             circleType: 2,
                             price: this.monthMoney,
                             linkUUID: overTime.get("linkUUID") || "",
-                            // saId: 传id
+                            saId: localStorage.getItem("said")
                         }).then(response => {
                             if (response.data.code == "000000") {
                                 overTime.set("hasJoinedNoCircle", true);

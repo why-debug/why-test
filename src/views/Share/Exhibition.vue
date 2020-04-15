@@ -34,6 +34,9 @@
             this.circleId = this.$route.query.id
             this.circleInfo()
             this.qrcodeView()
+            localStorage.setItem('said',this.circleId)
+            // console.log(this.circleId,this.infos,this.codeImg);
+            
         },
         methods: {
             circleInfo() {
