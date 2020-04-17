@@ -84,7 +84,7 @@ export default {
     .center-box {
       position: fixed;
       left: 0;
-      bottom: 30px;
+      bottom: 80px;
       color: #fefefe;
       text-align: center;
       font-size: 13px;
