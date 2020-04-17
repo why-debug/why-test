@@ -14,7 +14,7 @@
       </div>
     </van-tabbar-item>
     <van-tabbar-item v-if="loginShow">
-      <div class="tab-btn" @click="$router.push('/login')">
+      <div class="tab-btn"  @click="$router.push('/login')">
         <img src="@/assets/images/menu-btn.png" />
         <span>办理业务</span>
       </div>

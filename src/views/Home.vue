@@ -13,15 +13,11 @@
       </div>
       <div class="case-title">精选铃音展示</div>
       <div class="video-wrap bg-white">
-        <van-tabs v-model="activeName" color="#2577E8" title-active-color="#2577E8" :border="false">
-          <van-tab
-            v-for="(item,index) in videoList"
-            :key="index"
-            :title="item.type"
-            :name="item.type"
-          >
-            <van-pull-refresh v-model="isLoading" @refresh="onRefresh" success-text="刷新成功">
-              <!-- <p>刷新次数: {{ count }}</p> -->
+        <van-tabs @click="onClick" color="#2577E8" title-active-color="#2577E8" :border="false">
+          <van-tab v-for="(item,index) in videoList" :key="index" :title="item.type" :name="index"></van-tab>
+        </van-tabs>
+        <!-- <van-pull-refresh v-model="isLoading" @refresh="onRefresh"> -->
+        <!--<p>刷新次数: {{ count }}</p>
               <div class="home-picture-cont">
                 <div
                   v-for="(it,idx) in item.rings"
@@ -35,12 +31,46 @@
                   <div class="name">{{it.name}}</div>
                   <span class="duration">{{it.duration}}</span>
                 </div>
+        </div>-->
+        <!-- <van-loading v-show="imgsArr==''?true:false" style="text-align: center;" type="spinner" color="#1989fa"/> -->
+        <!-- </van-pull-refresh> -->
+        <van-pull-refresh v-model="isLoading" @refresh="onRefresh" success-text="刷新成功">
+          <!-- 流式布局插件 -->
+          <Waterfall
+            :list="list[ind]"
+            :gutter="10"
+            :width="240"
+            :gridWidth="-1"
+            :breakpoints="{
+                    1200: { //当屏幕宽度小于等于1200
+                    rowPerView: 4,
+                    },
+                    800: { //当屏幕宽度小于等于800
+                    rowPerView: 3,
+                    },
+                    500: { //当屏幕宽度小于等于500
+                    rowPerView: 2,
+                    }
+                }"
+            backgroundColor="#fff"
+            ref="waterfall"
+          >
+            <template slot="item" slot-scope="props">
+              <div class="card" @click="showVideo(props.data.ring)">
+                <img
+                  class="cover"
+                  :src="$config.fileUrl+props.data.cover"
+                  alt
+                  @load="$refs.waterfall.refresh()"
+                />
+                <img class="play-btn position-center" src="../assets/images/btn_bofang.png" />
+                <div class="name">{{props.data.name}}</div>
+                <span class="duration">{{props.data.duration}}</span>
               </div>
-              <p style="text-align: center;color:#ccc;margin-bottom:0">已经到最底部啦！</p>
-            </van-pull-refresh>
-            <!-- <van-loading v-show="imgsArr==''?true:false" style="text-align: center;" type="spinner" color="#1989fa"/> -->
-          </van-tab>
-        </van-tabs>
+            </template>
+          </Waterfall>
+        </van-pull-refresh>
+        <p style="text-align: center;color:#ccc;margin-bottom:0">已经到最底部啦！</p>
       </div>
     </div>
     <!--帮助 按钮-->
@@ -54,7 +84,8 @@ import api from "../api/basic";
 import DragHelp from "../components/DragHelp";
 import { Storage } from "../api/common";
 import BottomNav from "../components/BottomNav";
-
+// 流式布局插件引入
+import Waterfall from "vue-waterfall-plugin";
 import Vue from "vue";
 import { Lazyload, Loading, PullRefresh } from "vant";
 
@@ -70,10 +101,12 @@ import vueWaterfallEasy from "vue-waterfall-easy";
 const overTime = new Storage();
 export default {
   name: "home",
-  components: { BottomNav, DragHelp, vueWaterfallEasy },
+  components: { BottomNav, DragHelp, vueWaterfallEasy, Waterfall },
   data() {
     return {
       // 数据
+      list: [],
+      ind: 0,
       isLoading: false,
       introduction: [
         {
@@ -84,17 +117,20 @@ export default {
         }
       ],
       videoList: [],
-      activeName: "最新上架"
+      active: 0
     };
   },
   methods: {
-    showVideo(index, idx) {
+    showVideo(idx) {
       this.$router.push({
         name: "videoShow",
         params: {
-          videoSrc: this.videoList[index].rings[idx].ring
+          videoSrc: idx
         }
       });
+    },
+    onClick(index, name) {
+      this.ind = index;
     },
     onRefresh() {
       setTimeout(() => {
@@ -104,29 +140,32 @@ export default {
       }, 1000);
     }
   },
-  computed: {
-    gridHegiht() {
-      return function(imgUrl) {
-        let img = new Image();
-        img.src = imgUrl;
-        let heightSm = "";
-        return (img.onload = function() {
-          let width = img.width;
-          let height = img.height;
-          heightSm = {
-            "grid-row": `auto / span ${height > width ? "24" : "12"}`
-          };
-          return heightSm;
-        })();
-      };
-    }
-  },
+  // computed: {
+  //   gridHegiht() {
+  //     return function(imgUrl) {
+  //       let img = new Image();
+  //       img.src = imgUrl;
+  //       let heightSm = "";
+  //       return (img.onload = function() {
+  //         let width = img.width;
+  //         let height = img.height;
+  //         heightSm = {
+  //           "grid-row": `auto / span ${height > width ? "24" : "12"}`
+  //         };
+  //         return heightSm;
+  //       })();
+  //     };
+  //   }
+  // },
   mounted() {
     // overTime.set('userId','handong',100000);
     api.sampleRings().then(res => {
       if (res.data.code == "000000") {
         this.videoList = res.data.data;
         // console.log(res.data.data);
+        res.data.data.forEach(e => {
+          this.list.push(e.rings);
+        });
       } else {
         this.$toast(res.data.msg);
       }
@@ -167,16 +206,13 @@ export default {
     padding: 0 20px;
     border-radius: 8px;
     margin-top: -46px;
-
     .item-box {
       padding: 20px 0;
-
       .title {
         display: flex;
         align-items: center;
         font-size: 16px;
         color: #333333;
-
         img {
           width: 14px;
           height: 14px;
@@ -189,7 +225,6 @@ export default {
         padding-top: 11px;
         line-height: 30px;
       }
-
       &:last-child {
         border-top: 1px solid #ebebeb;
       }
@@ -205,51 +240,83 @@ export default {
     border-radius: 8px 8px 0 0;
     padding: 0 15px 15px;
     margin-bottom: 50px;
-
-    // 流式布局
-    .home-picture-cont {
+    .card {
+      position: relative;
+      display: inline-block;
       width: 100%;
-      box-sizing: border-box;
-      padding: 0 2px 10px;
-      display: grid;
-      grid-row-gap: 4px;
-      grid-template-columns: repeat(auto-fill, calc(calc(100% - 3px) / 2));
-      grid-auto-rows: 10px;
-      grid-column-gap: 3px;
-      grid-auto-flow: row dense;
-      .home-picture-cont-img {
+      height: auto;
+      color: #333333;
+      font-size: 15px;
+      margin: 5px 0 10px;
+      padding: 0 5px;
+      .cover {
         width: 100%;
-        position: relative;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        .cover {
-          display: block;
-          width: 100%;
-          border-radius: 5px;
-        }
-        .name {
-          width: 100%;
-          // overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          position: absolute;
-          bottom: -10px;
-          left: 0;
-        }
-        .duration {
-          position: absolute;
-          right: 10px;
-          top: 20px;
-          color: #fff;
-          font-size: 12px;
-        }
-        .play-btn {
-          width: 31px;
-          height: 31px;
-        }
+        // height: 109px;
+        border-radius: 5px;
+        overflow: hidden;
+      }
+      .play-btn {
+        width: 31px;
+        height: 31px;
+      }
+      .name {
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .duration {
+        position: absolute;
+        right: 10px;
+        top: 5px;
+        color: #fff;
+        font-size: 12px;
       }
     }
+    // 流式布局
+    // .home-picture-cont {
+    //   width: 100%;
+    //   box-sizing: border-box;
+    //   padding: 0 2px 10px;
+    //   display: grid;
+    //   grid-row-gap: 4px;
+    //   grid-template-columns: repeat(auto-fill, calc(calc(100% - 3px) / 2));
+    //   grid-auto-rows: 10px;
+    //   grid-column-gap: 3px;
+    //   grid-auto-flow: row dense;
+    //   .home-picture-cont-img {
+    //     width: 100%;
+    //     position: relative;
+    //     display: flex;
+    //     justify-content: center;
+    //     align-items: center;
+    //     .cover {
+    //       display: block;
+    //       width: 100%;
+    //       border-radius: 5px;
+    //     }
+    //     .name {
+    //       width: 100%;
+    //       // overflow: hidden;
+    //       text-overflow: ellipsis;
+    //       white-space: nowrap;
+    //       position: absolute;
+    //       bottom: -10px;
+    //       left: 0;
+    //     }
+    //     .duration {
+    //       position: absolute;
+    //       right: 10px;
+    //       top: 20px;
+    //       color: #fff;
+    //       font-size: 12px;
+    //     }
+    //     .play-btn {
+    //       width: 31px;
+    //       height: 31px;
+    //     }
+    //   }
+    // }
     /deep/ .van-tabs__wrap {
       border-bottom: 1px solid #ebebeb;
     }
@@ -258,19 +325,16 @@ export default {
     /deep/ .van-dialog__header {
       padding-top: 17px;
     }
-
     .close-icon {
       position: absolute;
       top: 20px;
       right: 24px;
     }
   }
-
   .van-button::before {
     background-color: #fff;
     border-color: #fff;
   }
-
   .comfirm-btn {
     display: block;
     width: 140px;
@@ -280,7 +344,6 @@ export default {
     background-color: #458fce;
     border-color: #458fce;
   }
-
   .footer {
     position: fixed;
     left: 0;
@@ -290,7 +353,6 @@ export default {
     background-color: #fff;
     text-align: center;
     padding-top: 5px;
-
     .fixed-button {
       width: 140px;
       height: 37px;
@@ -301,7 +363,6 @@ export default {
       /*box-shadow:0px 6px 10px rgba(99,183,255,0.31);*/
     }
   }
-
   @media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) {
     .video-wrap {
       margin-bottom: 60px;
@@ -310,7 +371,6 @@ export default {
       height: 65px;
     }
   }
-
   @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
     .video-wrap {
       margin-bottom: 60px;
@@ -319,7 +379,6 @@ export default {
       height: 65px;
     }
   }
-
   @media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) {
     .video-wrap {
       margin-bottom: 60px;
