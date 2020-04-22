@@ -10,13 +10,13 @@ import {
 const overTime = new Storage()
 
 const service = axios.create({
-    baseURL: "/qd", // url = base url + request url
+    baseURL: "", // url = base url + request url
     withCredentials: true, // send cookies when cross-domain requests
     timeout: 120000 // request timeout
 })
 
 const serviceSms = axios.create({
-    baseURL: "/qd", // url = base url + request url
+    baseURL: "", // url = base url + request url
     withCredentials: true, // send cookies when cross-domain requests
     timeout: 120000 // request timeout
 })
