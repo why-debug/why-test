@@ -87,7 +87,7 @@
                 if(sa.indexOf("广东") > -1) {
                     this.$dialog.confirm({
                         title: '提示',
-                        message: '是否为下发短信？'
+                        message: '是否要下发短信？'
                     }).then(_ => {
                         this.$toast.loading({
                             mask: true,

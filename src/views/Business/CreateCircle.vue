@@ -101,7 +101,7 @@ export default {
       .catch(_ => {
         this.priceTypeList = [];
       });
-    console.log(localStorage.getItem("said"));
+    // console.log(localStorage.getItem("said"));
   },
   methods: {
     basicSubmit(form) {
@@ -111,7 +111,7 @@ export default {
           ...form,
           circleType: 1,
           linkUUID: overTime.get("linkUUID") || "",
-          saId: overTime.get("said") || "",
+          saId: overTime.get("said") || ""
         })
         .then(res => {
           const { data } = res;
@@ -142,7 +142,6 @@ export default {
         this.loading = false;
         return true;
       }
-
       const saName = overTime.get("saName");
       if (!!saName && saName.indexOf("广东") > -1) {
         api
@@ -184,6 +183,7 @@ export default {
                   onClose: _ => {
                     this.msisdnList = "";
                     this.stepActive += 1;
+                    this.$router.go(-1);
                   }
                 });
               } else {
@@ -222,36 +222,43 @@ export default {
     },
     ringSubmit(form) {
       this.ringObject = form;
-      api
-        .uploadRing({
-          msisdn: this.basicObject.msisdn,
-          ringName: form.ringName,
-          ringContent: form.ringContent,
-          setType: form.currentIndex,
-          file: form.fileList[0].file
-        })
-        .then(res => {
-          const { data } = res;
-          if (data.code === this.$common.SUCCESS) {
-            this.$notify({
-              message: "上传成功",
-              duration: 2000,
-              background: "#07c160",
-              onClose: _ => {
-                this.$router.go(-1);
-              }
-            });
-          } else {
-            this.$notify({
-              type: "danger",
-              message: data.msg,
-              duration: 2000
-            });
-          }
-        })
-        .finally(_ => {
-          this.loading = false;
-        });
+      if (form.ringName != "") {
+        api
+          .uploadRing({
+            msisdn: this.basicObject.msisdn,
+            ringName: form.ringName,
+            ringContent: form.ringContent,
+            setType: form.currentIndex,
+            file: form.fileList[0].file
+          })
+          .then(res => {
+            const { data } = res;
+            if (data.code === this.$common.SUCCESS) {
+              // console.log(complete);
+              this.$notify({
+                message: "上传成功",
+                duration: 2000,
+                background: "#07c160",
+                onClose: _ => {
+                  this.$router.go(-1);
+                }
+              });
+            } else {
+              this.$notify({
+                type: "danger",
+                message: data.msg,
+                duration: 2000
+              });
+            }
+          })
+          .finally(_ => {
+            this.loading = false;
+          });
+      } else {
+        setTimeout(() => {
+          this.$router.push("/circle-list");
+        }, 2000);
+      }
     },
     ringError() {
       this.loading = false;

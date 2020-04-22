@@ -147,7 +147,6 @@ export default {
                   duration: 2000,
                   background: "#07c160"
                 });
-
                 this.initialize();
                 this.onLoad();
               } else {

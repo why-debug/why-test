@@ -12,7 +12,7 @@
         loop
         id="vid"
       ></video>
-      <div class="center-box">
+      <div class="center-box" v-show="showcts">
         <div class="tel-name">咪咕圈子彩铃</div>
         <div>正在呼叫...</div>
         <div class="keybord">
@@ -43,10 +43,11 @@ export default {
   data() {
     return {
       videoSrc: "",
+      showcts: true,
       userPhone: overTime.get("circleUserPhone") || "13888888888"
     };
   },
-  methods:{
+  methods: {
     //  playvideo(){
     //  var vdo=document.getElementById('vid')
     //  vdo.play();
@@ -55,6 +56,13 @@ export default {
   mounted() {
     this.videoSrc = this.$route.params.videoSrc;
     //  this.playvideo()
+    var height = this.$refs.videoRef.offsetHeight;
+     var width = this.$refs.videoRef.offsetWidth;
+    if (width < height) {
+      this.showcts = false;
+    } else {
+      this.showcts = true;
+    }
   }
 };
 </script>
@@ -75,16 +83,14 @@ export default {
     margin: 0 auto;
     background-color: #1f1f1f;
     // position: relative;
-
     video {
       width: 100%;
-      // height: px;
       object-fit: fill;
     }
     .center-box {
       position: fixed;
       left: 0;
-      bottom: 30px;
+      bottom: 80px;
       color: #fefefe;
       text-align: center;
       font-size: 13px;

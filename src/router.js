@@ -118,6 +118,14 @@ export default new Router({
             component: () => import('./views/Business/AddMember')
         },
         {
+            path: '/video-progress',
+            name: 'videoProgress',
+            meta: {
+                title: '圈子视频彩铃'
+            },
+            component: () => import('./views/Business/videoProgress')
+        },
+        {
             path: '/add-ring-video',
             name: 'addRingVideo',
             meta: {

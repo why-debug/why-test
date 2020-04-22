@@ -158,7 +158,7 @@
             onOpenSMS(item) {
                 this.$dialog.confirm({
                     title: '提示',
-                    message: '是否为成员下发短信？'
+                    message: '是否给成员下发短信？'
                 }).then(_ => {
                     this.$toast.loading({
                         mask: true,
@@ -278,9 +278,12 @@
             },
             addMemberSubmit() {
                 this.$router.push({name: "addMember", query: {id: this.circleId}})
+                console.log(this.membersList);
+                
             },
             addRingSubmit() {
                 this.$router.push({name: "addRingVideo", query: {msisdn: this.infos.circleManagerNum}})
+            
             },
             onRemindOpenBiz() {
                 this.$dialog.confirm({

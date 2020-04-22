@@ -8,7 +8,7 @@
                 </div>
                 <div class="click-open" @click="openCircle">
                     <van-loading v-if="loading" color="#1989fa" />
-                    <span v-else>点我开通 ></span>
+                    <span v-else v-show="clickOpened">点我开通 ></span>
                 </div>
             </div>
             <div class="center-box">
@@ -65,6 +65,8 @@
             return {
                 loading:false,
                 noDatas: false,
+                // 显示隐藏开通
+                clickOpened:true,
                 infos: {
                     tel: overTime.get("circleUserPhone"),
                     ringName: "圈子彩铃",
@@ -84,7 +86,7 @@
                 if(!!saName && saName.indexOf("广东") > -1) {
                     this.$dialog.confirm({
                         title: '提示',
-                        message: '是否为下发短信？'
+                        message: '是否要下发短信？'
                     }).then(_ => {
                         this.$toast.loading({
                             mask: true,
@@ -140,6 +142,8 @@
                             duration: 2000,
                             background: '#07c160'
                         })
+                        this.clickOpened=false;
+                        
                         overTime.set("hasOpenBiz", true);
                         this.updateData();
                     } else {
