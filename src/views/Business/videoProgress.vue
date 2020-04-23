@@ -49,9 +49,11 @@ export default {
     speed() {
       let Speed = this.$store.state.videoSpeed;
       if (Speed == 100) {
-        this.during = false;
-        Speed=0
+        setTimeout(() => {
+          this.during = false;
+        }, 2000);
       }
+
       return Speed;
     }
   },
@@ -60,19 +62,10 @@ export default {
       this.$router.go(-2);
     }
   },
-  created() {
-    // if (this.speed == 100) {
-    //   this.during = false;
-    //   this.speed=0
-    // } else {
-      this.during = true;
-    // }
-  },
   mounted() {
     this.videoName = this.$route.query.videoName;
-    // this.speed=this.$store.state.videoSpeed;
-
-    // console.log(api.data().videoProgress);
+    this.$store.commit("newvideoSpeed", 0);
+    this.during = true;
   }
 };
 </script>
@@ -80,7 +73,6 @@ export default {
 <style lang="scss" scoped>
 .loadpage {
   width: 75%;
-  //   height: 300px;
   background: #fff;
   margin: 0 auto;
   margin-top: 40px;

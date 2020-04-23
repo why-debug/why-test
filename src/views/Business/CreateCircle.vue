@@ -125,10 +125,10 @@ export default {
               duration: 2000
             });
           }
-        })
-        .finally(_ => {
-          this.loading = false;
         });
+      // .finally(_ => {
+      //   this.loading = false;
+      // });
     },
     basicError() {
       this.loading = false;
@@ -222,6 +222,12 @@ export default {
     },
     ringSubmit(form) {
       this.ringObject = form;
+      if (form.fileList.length !== 0 && form.ringName != "") {
+        this.$router.push({
+          path: "/video-progress",
+          query: { videoName: form.fileList[0].file.name }
+        });
+      }
       if (form.ringName != "") {
         api
           .uploadRing({
@@ -233,17 +239,16 @@ export default {
           })
           .then(res => {
             const { data } = res;
-            if (data.code === this.$common.SUCCESS) {
+            if (data.code !== this.$common.SUCCESS) {
               // console.log(complete);
-              this.$notify({
-                message: "上传成功",
-                duration: 2000,
-                background: "#07c160",
-                onClose: _ => {
-                  this.$router.go(-1);
-                }
-              });
-            } else {
+              // this.$notify({
+              //   message: "上传成功",
+              //   duration: 2000,
+              //   background: "#07c160",
+              //   onClose: _ => {
+              //     this.$router.go(-1);
+              //   }
+              // });
               this.$notify({
                 type: "danger",
                 message: data.msg,
