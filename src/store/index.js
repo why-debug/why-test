@@ -8,7 +8,8 @@ export default new Vuex.Store({
     msisdn: "",
     videoPro:0,
     videoSpeed:0,
-    videoTotal:0
+    videoTotal:0,
+    code:0
   },
   mutations: {
     newMsisdn({ msisdn }, data) {
@@ -22,6 +23,9 @@ export default new Vuex.Store({
     },
     newvideoTotal(state,data){
       state.videoTotal=data
+    },
+    newcode(state,data){
+      state.code=data
     }
   },
   actions: {

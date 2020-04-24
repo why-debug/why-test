@@ -8,7 +8,7 @@
                 </div>
                 <div class="click-open" @click="openCircle">
                     <van-loading v-if="loading" color="#1989fa" />
-                    <span v-else v-show="clickOpened">点我开通 ></span>
+                    <span v-else-if="!hasOpenBiz">点我开通 ></span>
                 </div>
             </div>
             <div class="center-box">
@@ -65,8 +65,6 @@
             return {
                 loading:false,
                 noDatas: false,
-                // 显示隐藏开通
-                clickOpened:true,
                 infos: {
                     tel: overTime.get("circleUserPhone"),
                     ringName: "圈子彩铃",
@@ -142,8 +140,6 @@
                             duration: 2000,
                             background: '#07c160'
                         })
-                        this.clickOpened=false;
-                        
                         overTime.set("hasOpenBiz", true);
                         this.updateData();
                     } else {

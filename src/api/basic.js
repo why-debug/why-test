@@ -27,7 +27,6 @@ service.interceptors.response.use(
             const {
                 data
             } = response
-
             if (data.code == "000001") { //未登录
                 overTime.remove("circleUserPhone")
                 overTime.remove("hasOpenBiz")
@@ -122,9 +121,6 @@ export default {
         for (let item in data) {
             formData.append(item, data[item])
         }
-        // console.log(this.videoProgress);
-        // this.$store.commit('newvideoPro',self.uploadMessage)
-
         return service.post('/circle/uploadRing', formData, config).then()
     },
     memberRingList(data) {

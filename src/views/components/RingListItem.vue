@@ -21,7 +21,7 @@
                 this.$router.push({
                     name: 'videoShow',
                     params: {
-                        videoSrc: "/rings/" + this.item().previewPath
+                        videoSrc: "/rings/" + this.item.previewPath
                     }
                 })
             },

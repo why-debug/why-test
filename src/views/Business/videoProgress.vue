@@ -10,29 +10,33 @@
       <div v-if="during" style="text-align: center;">
         <van-progress :percentage="speed" />
         <p style="font-size:12px;margin-bottom: 80px;">上传中...({{loaded}}MB/{{total}}MB)</p>
+        <van-loading v-show="wait" type="spinner" />
         <h2>视频上传中...{{speed}}%</h2>
+        <!-- <h3 v-show="wait">正在处理中...</h3> -->
         <p style="font-size:12px;">美好的内容值得等待，请勿离开当前页面</p>
       </div>
       <div v-else style="text-align: center;">
         <h2 style="color:#2476E7;margin-bottom: 100px;">上传完成</h2>
         <button class="btn" @click="successVideo()">确 定</button>
-        <!-- <van-button style="padding:0 10px" round type="info" @click="successVideo()">确定</van-button> -->
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { Progress, Button } from "vant";
+import { Progress, Button, Loading } from "vant";
 import Vue from "vue";
 import api from "@/api/basic";
+
+Vue.use(Loading);
 Vue.use(Progress);
 Vue.use(Button);
 export default {
   data() {
     return {
       videoName: "",
-      during: true
+      during: true,
+      wait: false
     };
   },
   computed: {
@@ -48,12 +52,15 @@ export default {
     },
     speed() {
       let Speed = this.$store.state.videoSpeed;
+      let code = this.$store.state.code;
+      // console.log(code);
       if (Speed == 100) {
-        setTimeout(() => {
-          this.during = false;
-        }, 2000);
+        this.wait = true;
       }
-
+      if (Speed == 100 && code === this.$common.SUCCESS) {
+        this.during = false;
+        this.wait = false;
+      }
       return Speed;
     }
   },
@@ -65,6 +72,7 @@ export default {
   mounted() {
     this.videoName = this.$route.query.videoName;
     this.$store.commit("newvideoSpeed", 0);
+    this.$store.commit("newcode", 0);
     this.during = true;
   }
 };
@@ -84,14 +92,14 @@ export default {
     justify-content: center;
     align-items: center;
     border-radius: 50%;
-    background: #C4DAFA;
+    background: #c4dafa;
     margin: 0 auto;
   }
   .btn {
     width: 140px;
     height: 40px;
     border-radius: 20px;
-    background: #2476E7;
+    background: #2476e7;
     color: #fff;
     border: none;
   }

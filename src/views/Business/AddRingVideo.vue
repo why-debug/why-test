@@ -61,6 +61,7 @@ export default {
           })
           .then(res => {
             const { data } = res;
+            this.$store.commit('newcode',data.code)
             if (data.code !== this.$common.SUCCESS) {
               // this.$notify({
               //   message: "上传成功",
@@ -72,7 +73,7 @@ export default {
               // });
               this.$notify({
                 type: "danger",
-                message: data.msg,
+                message: "上传失败，失败原因："+data.msg,
                 duration: 2000,
                   onClose: _ => {
                   this.$router.go(-2);

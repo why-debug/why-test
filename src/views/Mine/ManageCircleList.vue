@@ -59,8 +59,6 @@
                             <van-button type="info" text="设置" @click="onSetRing(item)" v-if="infos.latestRingName != item.name && item.status == '2'"/>
                         </template>
                     </van-swipe-cell>
-
-
                     <!--<div class="list-box" v-for="(item,index) in ringsList" :key="index" :style="{'color':item.color}"  @click="showVideo(item)">
                         <div class="left-box">{{item.name}}</div>
                         <div class="right-box">{{infos.latestRingName ? (infos.latestRingName == item.name ? "当前播放" : switchRingStatus(item.status)) : switchRingStatus(item.status)}}</div>

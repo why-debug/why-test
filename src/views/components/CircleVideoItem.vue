@@ -3,14 +3,13 @@
     <van-field
       v-model="form.ringName"
       label-width="0"
-      required
       clearable
       label
       placeholder="请输入彩铃名称"
       :error="ringNameError"
       @blur="vali('ringName')"
     />
-    <van-cell class="van-cell--required diy-cell">
+    <van-cell class="diy-cell">
       <van-uploader
         :after-read="uploadVideo"
         accept="video/mp4"
@@ -41,7 +40,6 @@
     <van-field
       v-model="form.ringContent"
       placeholder="请输入视频中的描述（音频文字内容）"
-      required
       type="textarea"
       rows="6"
       :border="false"
