@@ -125,10 +125,10 @@ export default {
               duration: 2000
             });
           }
+        })
+        .finally(_ => {
+          this.loading = false;
         });
-      // .finally(_ => {
-      //   this.loading = false;
-      // });
     },
     basicError() {
       this.loading = false;

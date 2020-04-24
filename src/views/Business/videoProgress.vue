@@ -14,7 +14,7 @@
         <p style="font-size:12px;">美好的内容值得等待，请勿离开当前页面</p>
       </div>
       <div v-else style="text-align: center;">
-        <h2 style="color:#00f;margin-bottom: 100px;">上传完成</h2>
+        <h2 style="color:#2476E7;margin-bottom: 100px;">上传完成</h2>
         <button class="btn" @click="successVideo()">确 定</button>
         <!-- <van-button style="padding:0 10px" round type="info" @click="successVideo()">确定</van-button> -->
       </div>
@@ -84,14 +84,14 @@ export default {
     justify-content: center;
     align-items: center;
     border-radius: 50%;
-    background: #00f;
+    background: #C4DAFA;
     margin: 0 auto;
   }
   .btn {
     width: 140px;
     height: 40px;
     border-radius: 20px;
-    background: #00f;
+    background: #2476E7;
     color: #fff;
     border: none;
   }
