@@ -146,6 +146,7 @@
                     message: '请稍候...',
                     duration: 0
                 })
+                
                 api.exitCircle({
                     msisdn: this.msisdn,
                     smsVcode: form.sms

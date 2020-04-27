@@ -173,11 +173,14 @@ export default {
       api
         .circleList({ page: this.page })
         .then(res => {
+          // console.log(res);
           const { data } = res;
           if (data.code === this.$common.SUCCESS) {
             this.page += 1;
             this.total = data.count;
             this.dataList = this.dataList.concat(data.data);
+            console.log( this.dataList);
+            
           } else {
             this.$notify({
               type: "danger",

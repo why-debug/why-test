@@ -7,18 +7,36 @@
     <!--<van-tabbar-item v-if="isShow">
             <img class="center-icon" src="../assets/images/center-icon.png" @click="uploadVideoRing">
     </van-tabbar-item>-->
-    <van-tabbar-item v-if="isShow">
+    <!-- <van-tabbar-item v-if="isShow">
       <div class="tab-btn" @click="uploadVideoRing">
         <img src="@/assets/images/menu-btn.png" />
         <span>办理业务</span>
       </div>
-    </van-tabbar-item>
+    </van-tabbar-item>-->
     <van-tabbar-item v-if="loginShow">
-      <div class="tab-btn"  @click="$router.push('/login')">
+      <div class="tab-btn" @click="$router.push('/login')">
         <img src="@/assets/images/menu-btn.png" />
         <span>办理业务</span>
       </div>
     </van-tabbar-item>
+
+    <img v-if="isShow" src="@/assets/images/home_addquanzi.png" @click="show=true" alt width="50" />
+    <van-popup round closeable :style="{ height: '30%' }" v-model="show" position="bottom">
+      <div style="text-align: center;">
+        <img src="@/assets/images/home_addquanzi.png" @click="show=false" width="50" alt />
+      </div>
+      <div class="add_popup">
+        <p @click="$router.push('/search')">
+          <img src="@/assets/images/addquanzi.png" alt width="70" />
+          <span>加入圈子</span>
+        </p>
+        <p @click="uploadVideoRing">
+          <img src="@/assets/images/banli.png" alt width="70" />
+          <span>办理业务</span>
+        </p>
+      </div>
+    </van-popup>
+
     <van-tabbar-item name="mine" icon="user-o" @click="mine" :class="!!!isMe ? 'disable' : ''">
       <span>我的</span>
       <img slot="icon" :src="$route.name == 'mine' ? userIcon.active : userIcon.inactive" />
@@ -27,7 +45,11 @@
 </template>
 
 <script>
+import Vue from "vue";
+import { Popup, Toast } from "vant";
 import { Storage } from "../api/common";
+Vue.use(Popup);
+Vue.use(Toast);
 const overTime = new Storage();
 export default {
   name: "BottomNav",
@@ -37,6 +59,8 @@ export default {
       isShow: false,
       loginShow: true,
       isMe: false,
+      // 首页弹出层
+      show: false,
       homeIcon: {
         active: require("@/assets/images/home-active.png"),
         inactive: require("@/assets/images/home-default.png")
@@ -50,13 +74,13 @@ export default {
   mounted() {
     const role = overTime.get("role");
     const loginShow = localStorage.getItem("loginShow");
-    if (role == "4" || role == "5") {
+    if (role == "4" || (role == "5" && loginShow == 1)) {
       this.isShow = true;
     } else {
       this.isShow = false;
     }
 
-    if (role == "5") {
+    if (role =='') {
       this.isMe = false;
     } else {
       this.isMe = true;
@@ -80,7 +104,8 @@ export default {
             this.$router.push("/circle-detail");
           } else {
             if (!overTime.get("hasJoinedNoCircle")) {
-              this.$router.push("/nob");
+              // this.$router.push("/nob");
+              Toast('请先办理业务或加入圈子');
             } else {
               this.$router.push("/upload-list");
             }
@@ -122,6 +147,21 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.add_popup {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  p {
+    width: 80px;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    span {
+      margin-top: 10px;
+      display: inline-block;
+    }
+  }
+}
 .center-icon {
   width: 55px;
   height: 55px;

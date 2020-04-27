@@ -8,8 +8,7 @@ Vue.use(Router)
 export default new Router({
     // mode: 'history',
     // base: process.env.BASE_URL,
-    routes: [
-        {
+    routes: [{
             path: '/',
             redirect: "/home"
         },
@@ -196,6 +195,14 @@ export default new Router({
                 title: '圈子视频彩铃'
             },
             component: () => import('./views/Sms/Sms.vue')
-        }
+        },
+        {
+            path: '/search',
+            name: 'search',
+            meta: {
+                title: '圈子视频彩铃'
+            },
+            component: () => import('./views/search/search.vue')
+        },
     ]
 })
