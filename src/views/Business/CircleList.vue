@@ -179,8 +179,7 @@ export default {
             this.page += 1;
             this.total = data.count;
             this.dataList = this.dataList.concat(data.data);
-            console.log( this.dataList);
-            
+            // console.log( this.dataList);
           } else {
             this.$notify({
               type: "danger",
@@ -198,7 +197,6 @@ export default {
             // 加载状态结束
             this.loading = false;
             this.timer = null;
-
             // 数据全部加载完成
             if (this.dataList.length >= this.total) {
               this.finished = true;

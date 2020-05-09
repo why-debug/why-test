@@ -1,6 +1,9 @@
 <template>
   <div id="home">
-    <div class="top"></div>
+    <div class="top">
+      <!-- 退出 -->
+      <img v-show="loginShow" class="exit" @click="exit" src="../assets/images/exit.png" alt width="30" />
+    </div>
     <div style="padding: 0 10px;">
       <div class="introduction bg-white">
         <div v-for="(item,index) in introduction" :key="index" class="item-box">
@@ -87,7 +90,7 @@ import BottomNav from "../components/BottomNav";
 // 流式布局插件引入
 import Waterfall from "vue-waterfall-plugin";
 import Vue from "vue";
-import { Lazyload, Loading, PullRefresh } from "vant";
+import { Lazyload, Loading, PullRefresh, Dialog } from "vant";
 
 Vue.use(Loading);
 Vue.use(PullRefresh);
@@ -107,6 +110,7 @@ export default {
       // 数据
       list: [],
       ind: 0,
+      loginShow:false,
       isLoading: false,
       introduction: [
         {
@@ -121,6 +125,22 @@ export default {
     };
   },
   methods: {
+    // 安全退出
+    exit() {
+      Dialog({ message: "" });
+      Dialog.confirm({
+        title: "退出登录",
+        message: "确认退出吗？"
+      })
+        .then(() => {
+          // on confirm
+          this.$router.push("/login");
+          localStorage.clear();
+        })
+        .catch(() => {
+          // on cancel
+        });
+    },
     showVideo(idx) {
       this.$router.push({
         name: "videoShow",
@@ -158,6 +178,7 @@ export default {
   //   }
   // },
   mounted() {
+    this.loginShow=localStorage.getItem('loginShow')
     // overTime.set('userId','handong',100000);
     api.sampleRings().then(res => {
       if (res.data.code == "000000") {
@@ -196,6 +217,11 @@ export default {
     height: 140px;
     background: url("../assets/images/home-top.png") no-repeat;
     background-size: cover;
+    .exit {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
   }
   .login-link {
     color: #fefefe;

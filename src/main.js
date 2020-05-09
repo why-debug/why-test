@@ -37,7 +37,6 @@ Vue.use(Step).use(Steps);
 
 
 
-
 Vue.config.productionTip = false;
 
 Vue.prototype.$config = config
@@ -48,7 +47,6 @@ router.beforeEach((to, from, next) => {
     if (to.meta.title) {
         document.title = to.meta.title
     }
-
     next()
 
     /*if(to.path === '/sms') {

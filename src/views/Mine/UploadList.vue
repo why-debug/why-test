@@ -46,8 +46,8 @@
     </div>
     <logout-modal
       :is-modal.sync="isCircle"
-      :phone="msisdn"
-      title="退出圈子"
+      :phone="infos.tel"
+      title="删除圈子"
       btn-text="确认"
       @refreshClick="endCircleBusiness"
     />
@@ -226,6 +226,7 @@ export default {
           this.$toast.clear();
         });
     },
+    // 删除圈子
     endCircleBusiness(form) {
       this.$toast.loading({
         mask: true,
@@ -233,10 +234,11 @@ export default {
         duration: 0
       });
       console.log(form);
-
       api
-        .exitCircle({
-          msisdn: this.msisdn,
+        .removeCircle({
+          // msisdn: this.msisdn,
+          // smsVcode: form.sms
+          circleId: this.circleId,
           smsVcode: form.sms
         })
         .then(res => {
@@ -246,7 +248,7 @@ export default {
             overTime.remove("saName");
             overTime.remove("role");
             this.$notify({
-              message: "退出成功",
+              message: "删除成功",
               duration: 2000,
               background: "#07c160",
               onClose: _ => {

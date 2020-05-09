@@ -14,7 +14,6 @@ export const service = axios.create({
     withCredentials: true, // send cookies when cross-domain requests
     timeout: 120000 // request timeout
 })
-
 const serviceSms = axios.create({
     baseURL: "/qd", // url = base url + request url
     withCredentials: true, // send cookies when cross-domain requests
@@ -32,9 +31,9 @@ service.interceptors.response.use(
                 overTime.remove("hasOpenBiz")
                 overTime.remove("hasJoinedNoCircle")
                 overTime.remove('currentRing')
+                overTime.remove('loginShow')
             }
         }
-
         return response
     }
 )
@@ -140,18 +139,23 @@ export default {
             }
         }).then()
     },
-
+    // 获取圈子列表
     circleList({
         page = 1,
-        limit = 10
+        limit = 10,
+        msisdn = "",
+        circleName="",
     }) {
         return service.get("/circle/circleList", {
             params: {
+                msisdn,
+                circleName,
                 page,
-                limit
+                limit,
             }
         }).then()
     },
+    // 获取圈子信息
     circleInfo({
         circleId = "",
         msisdn = ""
@@ -163,6 +167,7 @@ export default {
             }
         }).then()
     },
+    // 删除圈子
     removeCircle(circleId) {
         return service.get("/circle/delCircle", {
             params: {
@@ -170,6 +175,7 @@ export default {
             }
         }).then()
     },
+    // 添加成员
     addCircleMember({
         circleId = "",
         msisdns = []
@@ -188,6 +194,7 @@ export default {
             msisdns
         }).then()
     },
+    // 成员列表
     circleMemberList({
         page = 1,
         limit = 10,
@@ -203,6 +210,7 @@ export default {
             }
         }).then()
     },
+    // 删除成员
     removeCircleMember(memberList) {
         return service.post("/circle/delMember", memberList).then()
     },
@@ -217,6 +225,7 @@ export default {
             allFlag
         }).then()
     },
+    // 分享加入
     circleShareJoin({
         circleId = "",
         msisdn = "",

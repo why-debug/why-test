@@ -74,13 +74,13 @@ export default {
   mounted() {
     const role = overTime.get("role");
     const loginShow = localStorage.getItem("loginShow");
-    if (role == "4" || (role == "5" && loginShow == 1)) {
+    if (role == "5" && loginShow == 1) {
       this.isShow = true;
     } else {
       this.isShow = false;
     }
 
-    if (role =='') {
+    if (role == "") {
       this.isMe = false;
     } else {
       this.isMe = true;
@@ -105,7 +105,7 @@ export default {
           } else {
             if (!overTime.get("hasJoinedNoCircle")) {
               // this.$router.push("/nob");
-              Toast('请先办理业务或加入圈子');
+              Toast("请先办理业务或加入圈子");
             } else {
               this.$router.push("/upload-list");
             }

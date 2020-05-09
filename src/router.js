@@ -204,5 +204,14 @@ export default new Router({
             },
             component: () => import('./views/search/search.vue')
         },
+        // 欢迎您加入页面
+        {
+            path: '/share/infom',
+            name: 'shareInfom',
+            meta: {
+                title: '圈子视频彩铃'
+            },
+            component: () => import('./views/Share/info.vue')
+        },
     ]
 })

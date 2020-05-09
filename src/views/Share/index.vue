@@ -15,35 +15,47 @@
           <div class="status" v-if="infos.latestRingName">最近设置</div>
         </div>
       </div>
-      <div class="bottom">
-        <van-button round color="#458FCE" size="normal" @click="show = true">加入该圈子</van-button>
-      </div>
+      <button class="btn" @click="show = true">加入该圈子</button>
     </div>
-
-    <login-modal :is-modal.sync="show" title="确认加入" btn-text="加入圈子" @refreshClick="loginShare" />
+    <!-- <info :ID='circleId'> -->
+    <!-- <login-modal :is-modal.sync="show" title="确认加入" btn-text="加入圈子" @refreshClick="loginShare" /> -->
+    <logout-modal
+      :phone="msisdn"
+      :is-modal.sync="show"
+      title="确认加入"
+      btn-text="加入圈子"
+      @refreshClick="loginShare"
+    />
   </div>
 </template>
 
 <script>
 import CircleInfo from "./../components/CircleInfo";
 import LoginModal from "../components/LoginModal";
+
+import LogoutModal from "../components/LogoutModal";
 import api from "@/api/basic";
+import { Storage } from "../../api/common";
+const overTime = new Storage();
 
 export default {
   name: "index",
   components: {
     CircleInfo,
-    LoginModal
+    LoginModal,
+    LogoutModal
   },
   data() {
     return {
       show: false,
       circleId: "",
+      msisdn: "",
       infos: {}
     };
   },
   mounted() {
     this.circleId = this.$route.query.id;
+    this.msisdn = overTime.get("circleUserPhone");
     console.log(this.circleId);
     this.circleDetail();
   },
@@ -61,9 +73,11 @@ export default {
         message: "请稍候...",
         duration: 0
       });
+      console.log(form);
+
       api
         .circleShareJoin({
-          msisdn: form.phone,
+          msisdn: this.msisdn,
           smsVcode: form.sms,
           circleId: this.circleId
         })
@@ -105,6 +119,7 @@ export default {
     width: 100%;
     background-color: #ffffff;
     border-radius: 10px;
+    text-align: center;
   }
 
   .detail {
@@ -184,11 +199,14 @@ export default {
     }
   }
 
-  .bottom {
-    padding: 40px 0 20px 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  .btn {
+    background: #2577e8ff;
+    margin: 40px 0 20px 0;
+    color: #fff;
+    border: none;
+    width: 50%;
+    height: 40px;
+    border-radius: 20px;
   }
 }
 </style>
