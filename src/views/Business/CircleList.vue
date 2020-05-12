@@ -2,7 +2,7 @@
   <div class="box-list">
     <!-- 顶部背景图及退出图标 -->
     <div class="tit_bg">
-      <img class="exit" @click="exit" src="../../assets/images/exit.png" alt width="30" />
+      <!-- <img class="exit" @click="exit" src="../../assets/images/exit.png" alt width="30" /> -->
       <img class="add" @click="add" src="../../assets/images/add.png" alt width="60" />
       <div class="head_phone">
         <div class="tit_header">
@@ -15,14 +15,19 @@
     </div>
     <div id="list" style="margin: 10px;border-radius: 10px ">
       <van-list v-model="loading" :finished="finished" finished-text="已经全部加载完成" @load="onLoad">
-        <van-swipe-cell class="list-box" v-for="item in dataList" :key="item.name">
+        <van-swipe-cell v-for="(item,i) in dataList" :key="i" :ref="`list${i}`" class="list-box">
           <van-cell>
             <template slot="title">
               <circle-list-item :circle-item="item" />
               <!--<span class="share-box">分享加入</span>
               </circle-list-item>-->
             </template>
-            <van-icon slot="right-icon" name="ellipsis" style="line-height: 45px;" />
+            <van-icon
+              @click="handleClick($event,i)"
+              slot="right-icon"
+              name="ellipsis"
+              style="line-height: 45px;"
+            />
           </van-cell>
           <template slot="right">
             <!--<van-button type="info" text="编辑" @click="editCircle"/>-->
@@ -60,6 +65,9 @@
 import CircleListItem from "../components/CircleListItem";
 import api from "@/api/basic";
 import { Dialog } from "vant";
+import { SwipeCell } from "vant";
+import Vue from "vue";
+Vue.use(SwipeCell);
 
 export default {
   name: "CircleList",
@@ -89,7 +97,23 @@ export default {
       }
     };
   },
+  mounted() {
+    // this.$refs.why[0].open();
+    // this.Slide();
+    // console.log(this.$refs.why);
+  },
   methods: {
+    // 点击滑动
+    handleClick(event, i) {
+      event.stopPropagation();
+      console.log(this.$refs[`list${i}`][0]);
+      
+      if (this.$refs[`list${i}`][0].offset) {
+        this.$refs[`list${i}`][0].close();
+        return;
+      }
+      this.$refs[`list${i}`][0].open();
+    },
     // 安全退出
     exit() {
       Dialog({ message: "" });

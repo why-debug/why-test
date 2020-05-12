@@ -2,7 +2,14 @@
   <div id="home">
     <div class="top">
       <!-- 退出 -->
-      <img v-show="loginShow" class="exit" @click="exit" src="../assets/images/exit.png" alt width="30" />
+      <p v-show="loginShow" class="exit" @click="exit">
+        <img
+          style="vertical-align: middle;margin-right:4px;width:12px"
+          src="../assets/images/exit_home.png"
+          alt
+        />
+        <span style="color:#FFEE00FF;font-size:11px">退出</span>
+      </p>
     </div>
     <div style="padding: 0 10px;">
       <div class="introduction bg-white">
@@ -110,7 +117,7 @@ export default {
       // 数据
       list: [],
       ind: 0,
-      loginShow:false,
+      loginShow: false,
       isLoading: false,
       introduction: [
         {
@@ -178,7 +185,7 @@ export default {
   //   }
   // },
   mounted() {
-    this.loginShow=localStorage.getItem('loginShow')
+    this.loginShow = localStorage.getItem("loginShow");
     // overTime.set('userId','handong',100000);
     api.sampleRings().then(res => {
       if (res.data.code == "000000") {
@@ -219,8 +226,10 @@ export default {
     background-size: cover;
     .exit {
       position: absolute;
-      top: 20px;
-      right: 20px;
+      top: 10px;
+      right: 10px;
+      padding: 0;
+      margin: 0;
     }
   }
   .login-link {

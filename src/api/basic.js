@@ -111,9 +111,9 @@ export default {
             },
             onUploadProgress: progressEvent => {
                 let complete = (progressEvent.loaded / progressEvent.total * 100 | 0);
-                store.commit('newvideoPro', progressEvent.loaded )
-                store.commit('newvideoSpeed',complete)
-                store.commit('newvideoTotal',progressEvent.total)
+                store.commit('newvideoPro', progressEvent.loaded)
+                store.commit('newvideoSpeed', complete)
+                store.commit('newvideoTotal', progressEvent.total)
             }
         }
         let formData = new FormData()
@@ -144,7 +144,7 @@ export default {
         page = 1,
         limit = 10,
         msisdn = "",
-        circleName="",
+        circleName = "",
     }) {
         return service.get("/circle/circleList", {
             params: {
@@ -168,11 +168,9 @@ export default {
         }).then()
     },
     // 删除圈子
-    removeCircle(circleId) {
+    removeCircle(params) {
         return service.get("/circle/delCircle", {
-            params: {
-                circleId
-            }
+            params
         }).then()
     },
     // 添加成员
