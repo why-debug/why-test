@@ -110,46 +110,43 @@ export default {
     openCircle() {
       const saName = this.circleInfo.sa || "";
       if (!!saName && saName.indexOf("广东") > -1) {
-        this.$dialog
-          .confirm({
-            title: "提示",
-            message: "是否要下发短信？"
+        api
+          .circleRemindOpenBiz({
+            circleId: this.circleId,
+            memberIds: [this.infos.tel],
+            allFlag: 0
           })
-          .then(_ => {
-            this.$toast.loading({
-              mask: true,
-              message: "请稍候...",
-              duration: 0
-            });
-            api
-              .circleRemindOpenBiz({
-                circleId: this.circleId,
-                memberIds: [this.infos.tel],
-                allFlag: 0
-              })
-              .then(res => {
-                const { data } = res;
-                if (data.code === this.$common.SUCCESS) {
-                  this.$notify({
-                    message: "开通短信发送成功",
-                    duration: 2000,
-                    background: "#07c160"
-                  });
-                } else {
-                  this.$notify({
-                    type: "danger",
-                    message: data.msg,
-                    duration: 2000
-                  });
-                }
-              })
-              .finally(_ => {
-                this.$toast.clear();
+          .then(res => {
+            const { data } = res;
+            if (data.code === this.$common.SUCCESS) {
+              this.$dialog.alert({
+                title: "提示",
+                message: "短信已下发，请注意查收!"
               });
+            } else {
+              this.$notify({
+                type: "danger",
+                message: data.msg,
+                duration: 2000
+              });
+            }
           })
-          .catch(_ => {});
+          .finally(_ => {
+            this.$toast.clear();
+          });
+
+        // .then(_ => {
+        //   this.$toast.loading({
+        //     mask: true,
+        //     message: "请稍候...",
+        //     duration: 0
+        //   });
+        // })
+        // .catch(_ => {});
       } else {
         this.show = true;
+        console.log();
+        
       }
       /*api.openBiz({
                     msisdn: overTime.get("circleUserPhone")

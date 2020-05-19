@@ -1,6 +1,6 @@
 <template>
   <div class="box-list">
-    <!-- 顶部背景图及退出图标 -->
+    <!-- 顶部背景图 -->
     <div class="tit_bg">
       <!-- <img class="exit" @click="exit" src="../../assets/images/exit.png" alt width="30" /> -->
       <img class="add" @click="add" src="../../assets/images/add.png" alt width="60" />
@@ -97,39 +97,34 @@ export default {
       }
     };
   },
-  mounted() {
-    // this.$refs.why[0].open();
-    // this.Slide();
-    // console.log(this.$refs.why);
-  },
+  mounted() {},
   methods: {
     // 点击滑动
     handleClick(event, i) {
       event.stopPropagation();
-      console.log(this.$refs[`list${i}`][0]);
-      
+      // console.log(this.$refs[`list${i}`][0]);
       if (this.$refs[`list${i}`][0].offset) {
         this.$refs[`list${i}`][0].close();
         return;
       }
       this.$refs[`list${i}`][0].open();
     },
-    // 安全退出
-    exit() {
-      Dialog({ message: "" });
-      Dialog.confirm({
-        title: "退出登录",
-        message: "确认退出吗？"
-      })
-        .then(() => {
-          // on confirm
-          this.$router.push("/");
-          localStorage.clear();
-        })
-        .catch(() => {
-          // on cancel
-        });
-    },
+    // 安全退出(已移动到首页)
+    // exit() {
+    //   Dialog({ message: "" });
+    //   Dialog.confirm({
+    //     title: "退出登录",
+    //     message: "确认退出吗？"
+    //   })
+    //     .then(() => {
+    //       // on confirm
+    //       this.$router.push("/");
+    //       localStorage.clear();
+    //     })
+    //     .catch(() => {
+    //       // on cancel
+    //     });
+    // },
     onchang(e) {
       this.active = e.detail;
     },

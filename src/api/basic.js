@@ -145,6 +145,7 @@ export default {
         limit = 10,
         msisdn = "",
         circleName = "",
+        saId=""
     }) {
         return service.get("/circle/circleList", {
             params: {
@@ -152,6 +153,7 @@ export default {
                 circleName,
                 page,
                 limit,
+                saId
             }
         }).then()
     },
@@ -183,6 +185,7 @@ export default {
             msisdns
         }).then()
     },
+    // 分享圈子
     shareCircle({
         circleId = "",
         msisdns = []

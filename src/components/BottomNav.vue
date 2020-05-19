@@ -4,15 +4,18 @@
       <span>首页</span>
       <img slot="icon" slot-scope="props" :src="props.active ? homeIcon.active : homeIcon.inactive" />
     </van-tabbar-item>
-    <!--<van-tabbar-item v-if="isShow">
+    <!-- <van-tabbar-item v-if="isShow">
             <img class="center-icon" src="../assets/images/center-icon.png" @click="uploadVideoRing">
     </van-tabbar-item>-->
-    <!-- <van-tabbar-item v-if="isShow">
+
+
+    <van-tabbar-item v-if="isShow">
       <div class="tab-btn" @click="uploadVideoRing">
         <img src="@/assets/images/menu-btn.png" />
         <span>办理业务</span>
       </div>
-    </van-tabbar-item>-->
+    </van-tabbar-item>
+
     <van-tabbar-item v-if="loginShow">
       <div class="tab-btn" @click="$router.push('/login')">
         <img src="@/assets/images/menu-btn.png" />
@@ -20,13 +23,13 @@
       </div>
     </van-tabbar-item>
 
-    <img v-if="isShow" src="@/assets/images/home_addquanzi.png" @click="show=true" alt width="50" />
+    <!-- <img v-if="isShow" src="@/assets/images/home_addquanzi.png" @click="show=true" alt width="40" />
     <van-popup round closeable :style="{ height: '30%' }" v-model="show" position="bottom">
       <div style="text-align: center;">
-        <img src="@/assets/images/home_addquanzi.png" @click="show=false" width="50" alt />
+        <img src="@/assets/images/home_addquanzi.png" @click="show=false" width="40" alt />
       </div>
       <div class="add_popup">
-        <p @click="$router.push('/search')">
+        <p @click="search">
           <img src="@/assets/images/addquanzi.png" alt width="70" />
           <span>加入圈子</span>
         </p>
@@ -35,7 +38,7 @@
           <span>办理业务</span>
         </p>
       </div>
-    </van-popup>
+    </van-popup> -->
 
     <van-tabbar-item name="mine" icon="user-o" @click="mine" :class="!!!isMe ? 'disable' : ''">
       <span>我的</span>
@@ -48,6 +51,7 @@
 import Vue from "vue";
 import { Popup, Toast } from "vant";
 import { Storage } from "../api/common";
+
 Vue.use(Popup);
 Vue.use(Toast);
 const overTime = new Storage();
@@ -92,6 +96,10 @@ export default {
     }
   },
   methods: {
+    search() {
+      Toast("此功能暂未开通!");
+      // $router.push("/search");
+    },
     mine() {
       if (this.isMe) {
         if (overTime.get("circleUserPhone")) {

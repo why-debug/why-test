@@ -11,7 +11,7 @@
       placeholder="输入圈子名称或手机号"
     />
     <van-divider />
-
+    <van-loading v-if="Loading" color="#1989fa" vertical type="spinner">加载中...</van-loading>
     <div v-if="dataList.length>0">
       <ul
         v-for="(item, index) in dataList"
@@ -35,9 +35,12 @@
 </template>
 <script>
 import Vue from "vue";
-import { Search, Toast, Divider } from "vant";
+import { Search, Toast, Divider, Loading } from "vant";
 import api from "@/api/basic";
+import { Storage } from "../../api/common";
+const overTime = new Storage();
 
+Vue.use(Loading);
 Vue.use(Search);
 Vue.use(Toast);
 Vue.use(Divider);
@@ -46,10 +49,11 @@ export default {
     return {
       value: "",
       // msisdn: 13568880671,
-      circleId: "8b980cb0-8fb9-40a5-9037-47b32766c4ff",
+      // circleId: "d6d3059d-5087-4937-93f6-725737c5a7d5",
       page: 1,
       total: 10,
       shows: false,
+      Loading:false,
       dataList: [],
       searchData: [],
       img: require("@/assets/images/search.png")
@@ -70,19 +74,22 @@ export default {
       }
     }
   },
+  mounted() {
+    // localStorage.setItem("said", this.circleId);
+  },
   methods: {
     onSearch(val) {
       if (val.length == 11) {
         var num = Number(val);
       }
-
+      this.Loading=true
       api
         .circleList({
           msisdn: typeof num === "number" ? num : "",
           circleName: typeof num === "number" ? "" : val,
           page: this.page,
-          // limit: this.total
-          // saId: this.circleId
+          // limit: this.total,
+          saId: overTime.get("said") || ""
         })
         .then(res => {
           const { data } = res;
@@ -90,6 +97,7 @@ export default {
             this.dataList = data.data;
             this.total = data.count;
             this.ctime;
+            this.Loading=false
             if (this.dataList.length <= 0 && this.value != "") {
               this.shows = true;
             } else {
@@ -125,15 +133,8 @@ export default {
     },
     onCancel() {
       this.dataList = [];
+      this.shows = false;
     }
-  },
-  created() {
-    // this.getList();
-    // setTimeout(() => {
-    //   if (this.dataList.length < this.total) {
-    //     this.getList();
-    //   }
-    // }, 500);
   }
 };
 </script>
