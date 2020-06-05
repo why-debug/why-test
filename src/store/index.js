@@ -9,7 +9,8 @@ export default new Vuex.Store({
     videoPro:0,
     videoSpeed:0,
     videoTotal:0,
-    code:0
+    code:0,
+    codeMode:0,
   },
   mutations: {
     newMsisdn({ msisdn }, data) {
@@ -26,6 +27,9 @@ export default new Vuex.Store({
     },
     newcode(state,data){
       state.code=data
+    },
+    newcodeMode(state,data){
+      state.codeMode=data
     }
   },
   actions: {

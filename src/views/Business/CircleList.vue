@@ -157,7 +157,7 @@ export default {
             duration: 0
           });
           api
-            .removeCircle(circleId)
+            .removeCircle({circleId:circleId})
             .then(res => {
               const { data } = res;
               if (data.code === this.$common.SUCCESS) {

@@ -73,6 +73,7 @@
                         const _index = _msisdnListTemp[i].indexOf("#")
                         _msisdnError.push(_msisdnListTemp[i].substring(0, _index > -1 ? _index : _msisdnListTemp[i].length)+"#"+valiError)
                         _isSuccessBool = valiError
+
                     }
                 }
 

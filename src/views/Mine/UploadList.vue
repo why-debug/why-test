@@ -109,45 +109,44 @@ export default {
   methods: {
     openCircle() {
       const saName = this.circleInfo.sa || "";
-      if (!!saName && saName.indexOf("广东") > -1) {
-        api
-          .circleRemindOpenBiz({
-            circleId: this.circleId,
-            memberIds: [this.infos.tel],
-            allFlag: 0
-          })
-          .then(res => {
-            const { data } = res;
-            if (data.code === this.$common.SUCCESS) {
-              this.$dialog.alert({
-                title: "提示",
-                message: "短信已下发，请注意查收!"
-              });
-            } else {
-              this.$notify({
-                type: "danger",
-                message: data.msg,
-                duration: 2000
-              });
-            }
-          })
-          .finally(_ => {
-            this.$toast.clear();
-          });
-
-        // .then(_ => {
-        //   this.$toast.loading({
-        //     mask: true,
-        //     message: "请稍候...",
-        //     duration: 0
-        //   });
-        // })
-        // .catch(_ => {});
-      } else {
         this.show = true;
-        console.log();
-        
-      }
+      // if (!!saName && saName.indexOf("广东") > -1) {
+      //   api
+      //     .circleRemindOpenBiz({
+      //       circleId: this.circleId,
+      //       memberIds: [this.infos.tel],
+      //       allFlag: 0
+      //     })
+      //     .then(res => {
+      //       const { data } = res;
+      //       if (data.code === this.$common.SUCCESS) {
+      //         this.$dialog.alert({
+      //           title: "提示",
+      //           message: "短信已下发，请注意查收!"
+      //         });
+      //       } else {
+      //         this.$notify({
+      //           type: "danger",
+      //           message: data.msg,
+      //           duration: 2000
+      //         });
+      //       }
+      //     })
+      //     .finally(_ => {
+      //       this.$toast.clear();
+      //     });
+
+      //   // .then(_ => {
+      //   //   this.$toast.loading({
+      //   //     mask: true,
+      //   //     message: "请稍候...",
+      //   //     duration: 0
+      //   //   });
+      //   // })
+      //   // .catch(_ => {});
+      // } else {
+      
+      // }
       /*api.openBiz({
                     msisdn: overTime.get("circleUserPhone")
                 }).then(res => {

@@ -2,7 +2,7 @@
   <div id="home">
     <div class="top">
       <!-- 退出 -->
-      <p v-show="loginShow" class="exit" @click="exit">
+      <p v-show="loginShow==1" class="exit" @click="exit">
         <img
           style="vertical-align: middle;margin-right:4px;width:12px"
           src="../assets/images/exit_home.png"
