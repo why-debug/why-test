@@ -64,6 +64,7 @@
     <logout-modal
       :is-modal.sync="show"
       :phone="infos.tel"
+      :code-mode="codeMode"
       title="开通确认"
       btn-text="确认开通"
       @refreshClick="loginOpenBusiness"
@@ -92,6 +93,8 @@ export default {
       noDatas: false,
       //   退出圈子
       isCircle: false,
+      // 切换验证方式
+      codeMode: 0,
       msisdn: "",
       infos: {
         tel: overTime.get("circleUserPhone"),
@@ -109,7 +112,10 @@ export default {
   methods: {
     openCircle() {
       const saName = this.circleInfo.sa || "";
-        this.show = true;
+      this.show = true;
+      if (!!saName && saName.indexOf("广东") > -1) {
+        this.codeMode = 1;
+      }
       // if (!!saName && saName.indexOf("广东") > -1) {
       //   api
       //     .circleRemindOpenBiz({
@@ -145,7 +151,7 @@ export default {
       //   // })
       //   // .catch(_ => {});
       // } else {
-      
+
       // }
       /*api.openBiz({
                     msisdn: overTime.get("circleUserPhone")
@@ -243,6 +249,8 @@ export default {
             overTime.remove("circleUserPhone");
             overTime.remove("saName");
             overTime.remove("role");
+            overTime.remove("hasOpenBiz");
+            overTime.remove("hasJoinedNoCircle");
             this.$notify({
               message: "删除成功",
               duration: 2000,

@@ -69,6 +69,14 @@ export default new Router({
             component: () => import('./views/Qa/index.vue')
         },
         {
+            path: '/ua',
+            name: 'ua',
+            meta: {
+                title: '圈子视频彩铃-用户协议'
+            },
+            component: () => import('./views/Ua/index.vue')
+        },
+        {
             path: '/mine',
             name: 'mine',
             meta: {

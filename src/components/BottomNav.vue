@@ -83,7 +83,6 @@ export default {
     } else {
       this.isShow = false;
     }
-
     if (role == "") {
       this.isMe = false;
     } else {

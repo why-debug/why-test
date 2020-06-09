@@ -97,12 +97,12 @@ export default {
     },
     openService() {
       if (this.form.name != "" && this.form.fileList.length != 0) {
-        this.$toast.loading({
-          mask: true,
-          message: "请稍候...",
-          duration: 0
-        });
         if (!overTime.get("hasJoinedNoCircle")) {
+          this.$toast.loading({
+            mask: true,
+            message: "正在创建圈子\n...",
+            duration: 0
+          });
           //去开通圈子
           api
             .addCircle({
@@ -113,12 +113,21 @@ export default {
               saId: overTime.get("said") || ""
             })
             .then(response => {
+              this.$toast.clear();
               if (response.data.code == "000000") {
+                this.$notify({
+                  message: "圈子创建成功",
+                  duration: 1000,
+                  background: "#07c160"
+                });
                 overTime.set("hasJoinedNoCircle", true);
                 this.hasJoinedNoCircle = true;
+                this.$router.push({
+                  path: "/video-progress",
+                  query: { videoName: this.form.fileList[0].file.name }
+                });
                 this.uploadRing();
               } else {
-                this.$toast.clear();
                 this.$toast(response.data.msg);
               }
             })
@@ -127,6 +136,10 @@ export default {
               this.$toast(response.data.msg);
             });
         } else {
+          this.$router.push({
+            path: "/video-progress",
+            query: { videoName: this.form.fileList[0].file.name }
+          });
           this.uploadRing();
         }
       } else {
@@ -143,20 +156,20 @@ export default {
           .uploadRing({
             msisdn: this.userPhone,
             ringName: this.form.name,
-            ringContent: "",
+            ringContent: this.form.des == "" ? 6 : this.form.des,
             setType: this.currentIndex,
             file: this.form.fileList[0].file
           })
           .then(res => {
             this.$toast.clear();
             let datas = res.data;
+            this.$store.commit("newcode", datas.code);
             if (datas.code == "000000") {
-              if (this.hasJoinedNoCircle) {
-                this.$toast.success("上传成功");
-                setTimeout(() => {
-                  this.$router.push("/manage-list");
-                }, 2000);
-              } else {
+              if (!this.hasJoinedNoCircle) {
+                // this.$toast.success("上传成功");
+                // setTimeout(() => {
+                //   this.$router.push("/manage-list");
+                // }, 2000);
                 this.$router.push({
                   name: "success",
                   params: {
@@ -166,6 +179,7 @@ export default {
               }
             } else {
               this.$toast.fail(datas.msg);
+              this.$router.push("/service-ring");
             }
           })
           .catch(_ => this.$toast.clear());

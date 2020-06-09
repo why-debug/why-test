@@ -12,12 +12,12 @@ const overTime = new Storage()
 export const service = axios.create({
     baseURL: "/qd", // url = base url + request url
     withCredentials: true, // send cookies when cross-domain requests
-    timeout: 120000 // request timeout
+    timeout: 600000 // request timeout
 })
 const serviceSms = axios.create({
     baseURL: "/qd", // url = base url + request url
     withCredentials: true, // send cookies when cross-domain requests
-    timeout: 120000 // request timeout
+    timeout: 600000 // request timeout
 })
 
 service.interceptors.response.use(
