@@ -27,6 +27,8 @@
 import { Progress, Button, Loading } from "vant";
 import Vue from "vue";
 import api from "@/api/basic";
+import { Storage } from "../../api/common";
+const overTime = new Storage();
 
 Vue.use(Loading);
 Vue.use(Progress);
@@ -66,7 +68,11 @@ export default {
   },
   methods: {
     successVideo() {
-      this.$router.go(-2);
+      if (overTime.get("role") > 3) {
+        this.$router.push("/upload-list");
+      } else {
+        this.$router.go(-2);
+      }
     }
   },
   mounted() {

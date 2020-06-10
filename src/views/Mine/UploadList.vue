@@ -81,6 +81,7 @@ import { Storage } from "../../api/common";
 const overTime = new Storage();
 
 export default {
+  inject: ["reload"],
   name: "UploadList",
   components: {
     LoginModal,
@@ -109,7 +110,7 @@ export default {
   methods: {
     openCircle() {
       const saName = this.circleInfo.sa || "";
-        this.show = true;
+      this.show = true;
       // if (!!saName && saName.indexOf("广东") > -1) {
       //   api
       //     .circleRemindOpenBiz({
@@ -145,7 +146,7 @@ export default {
       //   // })
       //   // .catch(_ => {});
       // } else {
-      
+
       // }
       /*api.openBiz({
                     msisdn: overTime.get("circleUserPhone")
@@ -170,6 +171,15 @@ export default {
         })
         .then(res => {
           const { data } = res;
+          // if (data.code == 1) {
+          //   overTime.set("hasOpenBiz", true);
+          //   this.$notify({
+          //     message: data.msg,
+          //     duration: 2000,
+          //     background: "#07c160"
+          //   });
+          //   this.reload();
+          // }
           if (data.code === this.$common.SUCCESS) {
             this.$notify({
               message: "开通成功",
