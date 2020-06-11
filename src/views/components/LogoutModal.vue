@@ -1,58 +1,63 @@
 <template>
   <van-popup v-model="isDialog" class="open-popup" @open="open" @close="close">
     <div class="title">{{title}}</div>
-    <van-field v-model="phone" readonly />
-    <van-field
-      v-show="CodeMode==0"
-      v-model="openInfo.sms"
-      clearable
-      placeholder="请输入短信验证码"
-      type="number"
-      :error="isSmsError"
-    >
-      <van-button
-        slot="button"
-        size="small"
-        class="sms-btn"
-        :disabled="smsBtn.disabled"
-        @click="getCode"
-      >{{smsBtn.text}}</van-button>
-    </van-field>
-
-    <van-field
-      v-show="CodeMode==1"
-      v-model="openInfo.sms"
-      clearable
-      placeholder="请输入图形验证码"
-      type="number"
-      :error="isSmsError"
-    >
-      <van-button
-        slot="button"
-        size="small"
-        class="sms-btn"
-        :disabled="smsBtn.disabled"
-        @click="getCode"
-      >{{smsBtn.text}}</van-button>
-    </van-field>
-    <p style="color:#2577E8FF;margin-left: 16px;margin-bottom:60px" @click="CodeMode==0?CodeMode=1:CodeMode=0">切换验证方式</p>
-    <van-checkbox style="margin-left: 16px;" v-model="checked" label-disabled>
-      <span :class="isChecked?'why':''">阅读并同意</span>
-      <span style="color:#2577E8FF" @click="$router.push('/ua')">《服务协议》</span>
-    </van-checkbox>
-    <!-- <p>{{checked}}</p> -->
-    <div class="flex-row-between bottom-div">
-      <div>
-        <slot />
+    <van-form scroll-to-error>
+      <van-field v-model="phone" readonly />
+      <van-field
+        v-show="CodeMode==0"
+        v-model="openInfo.sms"
+        clearable
+        name="validator"
+        placeholder="请输入短信验证码"
+        type="number"
+        :rules="[{ validator,message: '验证码错误!' }]"
+      >
+        <van-button
+          slot="button"
+          size="small"
+          class="sms-btn"
+          :disabled="smsBtn.disabled"
+          @click="getCode"
+        >{{smsBtn.text}}</van-button>
+      </van-field>
+      <div v-show="CodeMode==1" style="position: relative;">
+        <van-field
+          v-model="openInfo.cm"
+          clearable
+          placeholder="请输入图形验证码"
+          type="number"
+          :error="isCmError"
+        ></van-field>
+        <img
+          style="position: absolute;
+        right: 12px;bottom: 12px;"
+          @click="replace"
+          :src="imgCode"
+        />
       </div>
-      <van-button
-        type="info"
-        round
-        class="comfirm-btn"
-        :loading="loginLoading"
-        @click="submitPhone"
-      >{{btnText}}</van-button>
-    </div>
+      <p
+        style="color:#2577E8FF;margin-left: 16px;margin-bottom:60px"
+        @click="CodeMode==0?CodeMode=1:CodeMode=0"
+      >切换验证方式</p>
+      <van-checkbox style="margin-left: 16px;" v-model="checked" label-disabled>
+        <span :class="isChecked?'why':''">阅读并同意</span>
+        <span style="color:#2577E8FF" @click="$router.push('/ua')">《服务协议》</span>
+      </van-checkbox>
+
+      <!-- <p>{{checked}}</p> -->
+      <div class="flex-row-between bottom-div">
+        <div>
+          <slot />
+        </div>
+        <van-button
+          type="info"
+          round
+          class="comfirm-btn"
+          :loading="loginLoading"
+          @click="submitPhone"
+        >{{btnText}}</van-button>
+      </div>
+    </van-form>
   </van-popup>
 </template>
 
@@ -65,6 +70,8 @@ export default {
   props: ["isModal", "title", "btnText", "codeMode", "phone"],
   data() {
     return {
+      // 图形验证码
+      imgCode: "http://211.137.107.18:8888/page/cm/image.jsp",
       // 切换验证方式
       CodeMode: 0,
       checked: false,
@@ -72,7 +79,8 @@ export default {
       errorMessage: "",
       isDialog: false,
       openInfo: {
-        sms: ""
+        sms: "",
+        cm: ""
       },
       smsBtn: {
         text: "获取验证码",
@@ -80,9 +88,11 @@ export default {
         timer: null,
         count: ""
       },
+      isResult: true,
       isPhoneError: false,
       isSmsError: false,
-      isChecked: false
+      isChecked: false,
+      isCmError: false
     };
   },
   watch: {
@@ -100,9 +110,19 @@ export default {
     }
   },
   methods: {
+    validator(val) {
+      return val == "0000" || val == "6023";
+    },
     open() {},
     close() {
       this.$emit("update:isModal", false);
+      this.openInfo.sms = "";
+      this.openInfo.cm = "";
+    },
+    // 点击更新图形验证码
+    replace() {
+      const num = Math.ceil(Math.random() * 10); // 生成一个随机数（防止缓存）
+      this.imgCode = "http://211.137.107.18:8888/page/cm/image.jsp?" + num;
     },
     getCode() {
       let returnMsg = validateMobilePhone(this.phone);
@@ -139,31 +159,49 @@ export default {
       }
     },
     submitPhone() {
-      let isResult = true;
+      // let isResult = true
+      // if (!!!this.checked) {
+      //   this.isChecked = true;
+      //   this.isResult = false;
+      // }
       if (!!!this.phone) {
         this.isPhoneError = true;
-        isResult = false;
+        this.isResult = false;
       }
-
-      if (!!!this.openInfo.sms) {
-        this.isSmsError = true;
-        isResult = false;
-      }
-      if (this.checked == false) {
-        this.isChecked = true;
-        isResult = false;
+      if (this.codeMode == 0) {
+        if (this.openInfo.sms == "" || !!!this.checked) {
+          this.isChecked = true;
+          this.isSmsError = true;
+          this.isResult = false;
+        } else {
+          this.isResult = true;
+          this.isChecked = false;
+          this.isSmsError = false;
+        }
       } else {
-        this.isChecked = false;
+        if (!!!this.openInfo.cm || !!!this.checked) {
+          this.isChecked = true;
+          this.isCmError = true;
+          this.isResult = false;
+        } else {
+          this.isResult = true;
+          this.isChecked = false;
+          this.isSmsError = false;
+        }
       }
+
       console.log(this.isChecked);
+      console.log(this.checked);
+      console.log(this.openInfo.cm);
+      if (this.isResult) {
+        this.$emit("refreshClick", this.openInfo);
+        this.close();
+      }
 
-      if (!isResult) return false;
-
-      this.isPhoneError = false;
-      this.isSmsError = false;
-
-      this.$emit("refreshClick", this.openInfo);
-      this.close();
+      // this.isChecked = false;
+      // this.isPhoneError = false;
+      // this.isSmsError = false;
+      // this.isCmError = false;
     }
   }
 };
