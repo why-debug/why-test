@@ -164,6 +164,7 @@ export default {
             this.$toast.clear();
             let datas = res.data;
             this.$store.commit("newcode", datas.code);
+
             if (datas.code == "000000") {
               if (!this.hasJoinedNoCircle) {
                 // this.$toast.success("上传成功");

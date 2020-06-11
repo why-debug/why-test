@@ -10,7 +10,7 @@
       <div v-if="during" style="text-align: center;">
         <van-progress :percentage="speed" />
         <p style="font-size:12px;margin-bottom: 80px;">上传中...({{loaded}}MB/{{total}}MB)</p>
-        <van-loading v-show="wait" type="spinner" />
+        <van-loading v-show="wait" type="spinner" vertical>后台处理中,请稍后！</van-loading>
         <h2>视频上传中...{{speed}}%</h2>
         <!-- <h3 v-show="wait">正在处理中...</h3> -->
         <p style="font-size:12px;">美好的内容值得等待，请勿离开当前页面</p>
@@ -58,6 +58,8 @@ export default {
       // console.log(code);
       if (Speed == 100) {
         this.wait = true;
+      } else {
+        this.wait = false;
       }
       if (Speed == 100 && code === this.$common.SUCCESS) {
         this.during = false;
