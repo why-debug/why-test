@@ -6,30 +6,33 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     msisdn: "",
-    videoPro:0,
-    videoSpeed:0,
-    videoTotal:0,
-    code:0,
-    codeMode:0,
+    videoPro: 0,
+    videoSpeed: 0,
+    videoTotal: 0,
+    code: 0,
+    codeMode: 0,
   },
   mutations: {
-    newMsisdn({ msisdn }, data) {
+    newMsisdn({
+      msisdn
+    }, data) {
       msisdn = data
     },
-    newvideoPro(state,datas){
-      state.videoPro=datas
+    newvideoPro(state, datas) {
+      state.videoPro = datas
     },
-    newvideoSpeed(state,data){
-      state.videoSpeed=data
+    newvideoSpeed(state, data) {
+      state.videoSpeed = data
     },
-    newvideoTotal(state,data){
-      state.videoTotal=data
+    newvideoTotal(state, data) {
+      state.videoTotal = data
     },
-    newcode(state,data){
-      state.code=data
+    newcode(state, data) {
+      state.code = data
     },
-    newcodeMode(state,data){
-      state.codeMode=data
+    // 切换验证方式
+    newcodeMode(state, data) {
+      state.codeMode = data
     }
   },
   actions: {

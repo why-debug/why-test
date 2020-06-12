@@ -61,7 +61,7 @@
             <span>资费{{infos.price}}元/月</span>
     </login-modal>-->
 
-    <logout-modal
+    <logout-modal-graph
       :is-modal.sync="show"
       :phone="infos.tel"
       :code-mode="codeMode"
@@ -70,12 +70,13 @@
       @refreshClick="loginOpenBusiness"
     >
       <span>资费{{infos.price}}元/月</span>
-    </logout-modal>
+    </logout-modal-graph>
   </div>
 </template>
 
 <script>
 import LoginModal from "../components/LoginModal";
+import LogoutModalGraph from "../components/LogoutModalGraph";
 import LogoutModal from "../components/LogoutModal";
 import api from "../../api/basic";
 import { Storage } from "../../api/common";
@@ -85,6 +86,7 @@ export default {
   name: "UploadList",
   components: {
     LoginModal,
+    LogoutModalGraph,
     LogoutModal
   },
   data() {
