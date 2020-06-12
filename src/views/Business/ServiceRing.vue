@@ -117,7 +117,7 @@ export default {
               if (response.data.code == "000000") {
                 this.$notify({
                   message: "圈子创建成功",
-                  duration: 1000,
+                  duration: 2000,
                   background: "#07c160"
                 });
                 overTime.set("hasJoinedNoCircle", true);
@@ -179,7 +179,9 @@ export default {
               }
             } else {
               this.$toast.fail(datas.msg);
-              this.$router.push("/service-ring");
+              setTimeout(() => {
+                this.$router.push("/upload-list");
+              }, 2000);
             }
           })
           .catch(_ => this.$toast.clear());
