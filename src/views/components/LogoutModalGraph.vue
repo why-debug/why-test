@@ -35,7 +35,7 @@
       />
     </div>
     <p style="color:#2577E8FF;margin-left: 16px;margin-bottom:60px" @click="changeMode">切换验证方式</p>
-    <van-checkbox style="margin-left: 16px;" v-model="checked" label-disabled>
+    <van-checkbox style="margin-left: 16px;" v-model="checked">
       <span :class="isChecked?'why':''">阅读并同意</span>
       <span style="color:#2577E8FF" @click="$router.push('/ua')">《服务协议》</span>
     </van-checkbox>
@@ -67,7 +67,6 @@ export default {
     return {
       // 图形验证码
       imgCode: "http://211.137.107.18:8888/page/cm/image.jsp",
-      
       checked: false,
       loginLoading: false,
       errorMessage: "",

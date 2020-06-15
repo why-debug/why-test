@@ -64,7 +64,6 @@
     <logout-modal-graph
       :is-modal.sync="show"
       :phone="infos.tel"
-      :code-mode="codeMode"
       title="开通确认"
       btn-text="确认开通"
       @refreshClick="loginOpenBusiness"
@@ -96,8 +95,6 @@ export default {
       noDatas: false,
       //   退出圈子
       isCircle: false,
-      // 切换验证方式
-      codeMode: 0,
       msisdn: "",
       infos: {
         tel: overTime.get("circleUserPhone"),
@@ -116,12 +113,9 @@ export default {
     openCircle() {
       const saName = this.circleInfo.sa || "";
       this.show = true;
-<<<<<<< HEAD
-      if (!!saName && saName.indexOf("广东") > -1) {
-        this.codeMode = 1;
-      }
-=======
->>>>>>> why
+      // if (!!saName && saName.indexOf("广东") > -1) {
+      //   this.codeMode = 1;
+      // }
       // if (!!saName && saName.indexOf("广东") > -1) {
       //   api
       //     .circleRemindOpenBiz({
@@ -288,6 +282,10 @@ export default {
     }
   },
   mounted() {
+    if (this.$route.query.close) {
+      this.show = true;
+      !this.$route.query.close;
+    }
     this.updateData();
     this.getMonthPrice();
     this.circleDetail();
