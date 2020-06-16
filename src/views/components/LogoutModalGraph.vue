@@ -90,7 +90,8 @@ export default {
   watch: {
     isModal(newVal) {
       this.isDialog = newVal;
-    },
+    }
+
     // codeMode(n) {
     //   this.CodeMode = n;
     // }
@@ -101,9 +102,9 @@ export default {
     //   this.codeMode = 1;
     // }
   },
-  computed:{
-    codeMode(){
-     return this.$store.state.codeMode;
+  computed: {
+    codeMode() {
+      return this.$store.state.codeMode;
     }
   },
   methods: {
@@ -113,9 +114,9 @@ export default {
     // 切换验证方式
     changeMode() {
       if (this.codeMode == 0) {
-        this.$store.commit("newcodeMode",1)
+        this.$store.commit("newcodeMode", 1);
       } else {
-        this.$store.commit("newcodeMode",0)
+        this.$store.commit("newcodeMode", 0);
       }
       console.log(this.codeMode);
     },
