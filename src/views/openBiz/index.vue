@@ -4,7 +4,7 @@
       <p>业务开通</p>
     </header>
     <div class="conent">
-      <img src="../../assets/images/migu_yidong.png" alt width="120" />
+      <img src="../../assets/images/sms-logo.png" alt width="120" />
       <h2 style="margin:10px 0 50px">业务开通</h2>
       <div style="position: relative;">
         <van-field v-model="phone" readonly />

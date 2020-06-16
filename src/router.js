@@ -221,5 +221,14 @@ export default new Router({
             },
             component: () => import('./views/Share/info.vue')
         },
+        // 咪咕业务开通页面
+        {
+            path: '/openBiz',
+            name: 'openBiz',
+            meta: {
+                title: '圈子视频彩铃'
+            },
+            component: () => import('./views/openBiz/index.vue')
+        },
     ]
 })
